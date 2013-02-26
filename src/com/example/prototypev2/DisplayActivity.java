@@ -46,14 +46,11 @@ public class DisplayActivity extends ListActivity {
 	
 	private List<DisplayItem> deals;
 	
-	private static final String[] sort = {"Name","Distance","Price"};
-	private static final String[] category = {"Food","Drink","Meal"};
-	
 	private Spinner sortSpinner;
 	private Spinner categorySpinner;
 	
-	private ArrayAdapter<String> sortAdapter;
-	private ArrayAdapter<String> categoryAdapter;
+	private ArrayAdapter sortAdapter;
+	private ArrayAdapter categoryAdapter;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,8 +60,8 @@ public class DisplayActivity extends ListActivity {
 		sortSpinner = (Spinner) findViewById(R.id.sortSpinner);
 		categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
 		
-		sortAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sort);
-		categoryAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,category);
+		sortAdapter = ArrayAdapter.createFromResource(this, R.array.sort, android.R.layout.simple_spinner_item);
+		categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
 		
 		sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -72,8 +69,8 @@ public class DisplayActivity extends ListActivity {
 		sortSpinner.setAdapter(sortAdapter);
 		categorySpinner.setAdapter(categoryAdapter);
 		
-		sortSpinner.setOnItemSelectedListener(new SpinnerSelectedListener());
-		categorySpinner.setOnItemSelectedListener(new SpinnerSelectedListener());
+		sortSpinner.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+		categorySpinner.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 	
         refreshBtn.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -146,8 +143,6 @@ public class DisplayActivity extends ListActivity {
                             					Integer.toString(((int) (Double.parseDouble(parser.getAttributeValue(i)) * 1000))));
                             		}
                             	}
-//                            	deal.setLongitude(parser.getAttributeValue(1));
-//                            	deal.setLatitude(parser.getAttributeValue(2));
                             }
                         }
                         break;
@@ -211,15 +206,14 @@ public class DisplayActivity extends ListActivity {
 		}
     }
 	
-	private class SpinnerSelectedListener implements OnItemSelectedListener{
-
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-		}
-
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	}
-
+	private class SpinnerXMLSelectedListener implements OnItemSelectedListener{  
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,  
+                long arg3) {  
+            //view2.setText("你使用什么样的手机："+adapter2.getItem(arg2));  
+        }  
+  
+        public void onNothingSelected(AdapterView<?> arg0) {         
+        }         
+    }
 }
 
